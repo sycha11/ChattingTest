@@ -1,7 +1,6 @@
 package com.coala.chattest.chat.controller;
 
 import com.coala.chattest.chat.application.ChatService;
-import com.coala.chattest.chat.dto.ChatMessageDto;
 import com.coala.chattest.chat.dto.ChatRoomDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -14,14 +13,15 @@ import java.util.List;
 public class ChatController {
     private final ChatService chatService;
 
-    @PostMapping
-    public ChatRoomDto createRoom(@RequestParam String name) {
-        return chatService.createRoom(name);
-    }
+//    @PostMapping
+//    public ChatRoomDto createRoom(@RequestParam(value = "name") String name) {
+//        System.out.println(name);
+//        return chatService.createRoom(name);
+//    }
 
-    @DeleteMapping
-    public void deleteRoom(@RequestParam String name) {
-        chatService.deleteRoom(name);
+    @GetMapping
+    public List<ChatRoomDto> findAllRoom() {
+        return chatService.findAllRoom();
     }
 
 //    @GetMapping

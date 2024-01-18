@@ -1,28 +1,34 @@
-//package com.coala.chattest.chat.domain;
-//
-//import jakarta.persistence.*;
-//import lombok.AllArgsConstructor;
-//import lombok.Builder;
-//import lombok.Getter;
-//import lombok.NoArgsConstructor;
-//
-//import java.time.LocalDateTime;
-//
-//@Entity
-//@Getter
-//@NoArgsConstructor
-//@AllArgsConstructor
-//@Builder
-//public class ChatMessage {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    private Long Id;
-//
-//    @Column(nullable = false)
-//    private String content;
-//
-//    @Column(nullable = false)
-//    private LocalDateTime sendTime;
-//
-//
-//}
+package com.coala.chattest.chat.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
+import lombok.*;
+
+
+@Entity
+@Builder
+@Getter
+@Setter
+@RequiredArgsConstructor
+@AllArgsConstructor
+public class ChatMessage {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
+    //보내는 사람
+    private String sender;
+    //내용
+    private String message;
+
+    private String date;
+    private MessageType type;
+    public enum MessageType {
+        ENTER, TALK
+    }
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "room_id")
+    private ChatRoom chatRoom;
+
+}

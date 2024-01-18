@@ -1,11 +1,9 @@
 package com.coala.chattest.chat.dto;
-import lombok.Getter;
-
-
 import com.coala.chattest.chat.application.ChatService;
-import com.coala.chattest.chat.dto.ChatMessageDto;
-import lombok.Builder;
 import lombok.Getter;
+
+
+import lombok.Builder;
 import org.springframework.web.socket.WebSocketSession;
 
 import java.util.HashSet;
