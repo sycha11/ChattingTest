@@ -24,7 +24,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer { // Sp
         //setAllowedOriginPatterns(”*”) : 소켓 또한 CORS 설정을 해주어야 한다.
         //withSockJS() : 소켓을 지원하지 않는 브라우저라면, sockJS를 사용하도록 설정
         registry.addEndpoint("/stomp/chat")
-                .setAllowedOriginPatterns("http://localhost:9091")
+                .setAllowedOriginPatterns("*")
                 .withSockJS();
     }
 
