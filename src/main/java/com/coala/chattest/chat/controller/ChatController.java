@@ -13,11 +13,15 @@ import java.util.List;
 public class ChatController {
     private final ChatService chatService;
 
-//    @PostMapping
-//    public ChatRoomDto createRoom(@RequestParam(value = "name") String name) {
-//        System.out.println(name);
-//        return chatService.createRoom(name);
-//    }
+
+    // 채팅방 메세지 조회
+//    GetMapping("/{roomId}/message")
+
+    // 채팅 전송
+//    @PostMapping("/{roomId}/message")
+
+    // 채팅방 목록 조회
+//    @GetMapping("/rooms")
 
     @GetMapping
     public List<ChatRoomDto> findAllRoom() {

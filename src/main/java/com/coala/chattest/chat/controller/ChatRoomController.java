@@ -21,4 +21,5 @@ public class ChatRoomController {
         System.out.println(makeRoomDto.getReceiver());
         return chatService.createRoom(makeRoomDto);
     }
+
 }

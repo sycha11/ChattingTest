@@ -10,12 +10,17 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 @Configuration
 //클라이언트가 전송한 텍스트 요청을 처리할 TextWebSocketHandler를 상속받은 socketTextHandler를 작성
+//afterConnectionClosed -> 웹 소켓 연결이 종료되고 나서 서버단에서 실행해야할 일들을 정의해주는 메소드
+// afterConnectionEstablished -> 연결이 성사 되고 나서 해야할 일들.
+// handleTextMessage-> 웹소켓 서버단으로 메세지가 도착했을때 해주어야할 일들을 정의하는 메소드 입니다.
+
 public class SocketTextHandler extends TextWebSocketHandler {
 
-    private final Set<WebSocketSession> sessions = new HashSet<>();
+    private final Set<WebSocketSession> sessions = new HashSet<>(); // 유저들의 세션 저장
     @Autowired
     private RoomRepository roomRepository;
 
@@ -25,7 +30,7 @@ public class SocketTextHandler extends TextWebSocketHandler {
         Long roomId = getRoomId(session);
 
         roomRepository.room(roomId).getSessions().add(session);
-
+        System.out.println("SocketTextHandler : afterConnectionEstablished");
         System.out.println("새 클라이언트와 연결되었습니다.");
     }
 
@@ -41,6 +46,8 @@ public class SocketTextHandler extends TextWebSocketHandler {
         for (WebSocketSession connectedSession : room.getSessions()) {
             connectedSession.sendMessage(message);
         }
+
+        System.out.println("SocketTextHandler : handleTextMessage");
     }
 
     @Override
@@ -54,11 +61,18 @@ public class SocketTextHandler extends TextWebSocketHandler {
     }
 
     private Long getRoomId(WebSocketSession session) {
-        return Long.parseLong(
-                session.getAttributes()
-                        .get("roomId")
-                        .toString()
-        );
+        System.out.println("SocketTextHandler : getRoomId");
+//        return Long.parseLong(
+//                session.getAttributes()
+//                        .get("roomId")
+//                        .toString()
+//        );
+        // uri를 가져와서
+        String uri = Objects.requireNonNull(session.getUri())
+                .toString();
+        String[] parts = uri.split("/");
+        String roomId = parts[parts.length - 1];
+        return Long.parseLong(roomId);
     }
 
 }

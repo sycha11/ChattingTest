@@ -17,6 +17,7 @@ public class ChattingHandshakeInterceptor implements HandshakeInterceptor {
         String path = request.getURI().getPath();
         String roomId = path.substring(path.lastIndexOf('/') + 1);
         attributes.put("roomId", roomId);
+        System.out.println("ChattingHandshakeInterceptor : beforeHandshake");
         return true;
     }
 
@@ -26,6 +27,7 @@ public class ChattingHandshakeInterceptor implements HandshakeInterceptor {
                                WebSocketHandler wsHandler,
                                Exception exception) {
         // do nothing
+        System.out.println("ChattingHandshakeInterceptor : afterHandshake");
     }
 
 }
