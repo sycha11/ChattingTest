@@ -15,20 +15,23 @@ public class ChatMessage {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    //보내는 사람
-    private String sender;
-    //내용
-    private String message;
-
-    private String date;
-    private MessageType type;
     public enum MessageType {
         ENTER, TALK
     }
+
+    private MessageType type;
 
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "room_id")
     private ChatRoom chatRoom;
 
+    //보내는 사람
+    private String sender;
+    //내용
+    private String message;
+
+    private String date;
+
+    // 채팅생성
 }
