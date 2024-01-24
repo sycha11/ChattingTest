@@ -19,13 +19,11 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/createRoom")
     public ResponseEntity<ChatRoom> createRoom(@RequestBody MakeRoomDto makeRoomDto){
-        System.out.println(makeRoomDto.getSender());
-        System.out.println(makeRoomDto.getReceiver());
         ChatRoom chatRoom = chatService.createRoom(makeRoomDto);
         return new ResponseEntity<>(chatRoom, HttpStatus.OK);
     }
 
-    // 채팅방 조회
+    // 특정 채팅방 조회
     @GetMapping("/findRoom/{roomId}")
     public ResponseEntity<?> findRoom(@PathVariable("roomId") Long roomId){
         return chatService.findRoom(roomId);

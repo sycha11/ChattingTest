@@ -63,11 +63,11 @@ public class ChatService {
     }
 
     // 메시지 저장
-    public void saveMessage(Long roomId, MessageDto messageDto){
+    public ChatMessage saveMessage(Long roomId, MessageDto messageDto){
         // id로 방을 찾아주고 그 방에 메세지를 전달해야겠지?
         Optional<ChatRoom> chatRoom = chatRoomRepository.findById(roomId); // 방을 찾기
         if(chatRoom.isEmpty()){
-            return;
+            return null;
         }
 
         // dto를 entity에 넣어줌
@@ -81,8 +81,8 @@ public class ChatService {
 
         // 메시지를 메시지레포지토리에 저장해줌
         chatMessageRepository.save(chatMessage);
-        chatRoom.get().getMessages().add(chatMessage);
         log.info("messages size = {}", chatRoom.get().getMessages().add(chatMessage));
+        return chatMessage;
     }
 
     public <T> void sendMessage(WebSocketSession session, T message) {

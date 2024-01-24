@@ -2,8 +2,10 @@ package com.coala.chattest.chat.dto;
 
 import com.coala.chattest.chat.domain.ChatMessage;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 public class MessageDto {
 
     private ChatMessage.MessageType type;

@@ -1,4 +1,5 @@
 package com.coala.chattest.config;
+import com.coala.chattest.handler.StompHandler;
 import com.coala.chattest.utils.SocketTextHandler;
 import lombok.RequiredArgsConstructor;
 
@@ -19,19 +20,25 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer { // Spring 웹 서버에서 WebSocket을 사용하도록 Configuration을 추가해주는 작업을 진행했다.
 
+    private final StompHandler stompHandler;
     @Override
-    public void registerStompEndpoints(StompEndpointRegistry registry) { // 소켓을 연결해주는 uri
-        //setAllowedOriginPatterns(”*”) : 소켓 또한 CORS 설정을 해주어야 한다.
-        //withSockJS() : 소켓을 지원하지 않는 브라우저라면, sockJS를 사용하도록 설정
-        registry.addEndpoint("/stomp/chat")
-                .setAllowedOriginPatterns("*")
-                .withSockJS();
+    public void registerStompEndpoints(StompEndpointRegistry registry) {
+        System.out.println("endpoint");
+        registry.addEndpoint("/ws/chat").setAllowedOriginPatterns("*");
+        // .withSockJS();
     }
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry registry) {
+        // 메시지를 발행하는 요청 url -> 메시지를 보낼 때
+        registry.setApplicationDestinationPrefixes("/pub"); // 구독자 -> 서버(메세지보낼때)
+        // 메시지를 구독하는 요청 url -> 메시지를 받을 때
+        registry.enableSimpleBroker("/sub"); // 브로커 -> 구독자들(메세지받을때)
+    }
 
-        registry.setApplicationDestinationPrefixes("/pub");
-        registry.enableSimpleBroker("/sub");
+    @Override
+    public void configureClientInboundChannel(ChannelRegistration registration) {
+        System.out.println("socketconfigInterceper");
+        registration.interceptors(stompHandler);
     }
 }
