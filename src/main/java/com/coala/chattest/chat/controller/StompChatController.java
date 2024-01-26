@@ -25,7 +25,7 @@ public class StompChatController {
     private final SimpMessagingTemplate template; //특정 Broker 로 메세지를 전달
     private final ChatService chatService;
 
-    @MessageMapping("/chat")
+    @MessageMapping("/chat/{roomId}")
     public void enter(@DestinationVariable(value = "roomId") Long roomId, MessageDto message) {
 //        if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
 //            message.setMessage(message.getSender()+"님이 입장하였습니다.");
@@ -47,6 +47,7 @@ public class StompChatController {
         chatService.saveMessage(message.getRoomId(), message);
 
         System.out.println("roomId: " + roomId);
+        System.out.println("sender:" + message.getSender());
         System.out.println("message: " + message.getMessage());
         template.convertAndSend("/sub/channel" + roomId, message);
     }
